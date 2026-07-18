@@ -1,6 +1,7 @@
 ﻿using DigitalWallet.Data;
 using DigitalWallet.DTO;
 using DigitalWallet.Models;
+using DigitalWallet.Responses;
 using Microsoft.EntityFrameworkCore;
 using System.Runtime.CompilerServices;
 
@@ -16,13 +17,17 @@ namespace DigitalWallet.Services
             _context = context;
         }
 
-        public async Task<string> Register(RegisterDTO registerDto)
+        public async Task<ServiceResult> Register(RegisterDTO registerDto)
         {
             bool isUserExist = await _context.Users.AnyAsync(x => x.TC == registerDto.TC);
 
             if (isUserExist)
             {
-                return "Bu TC kimlik numarası sisteme zaten kayıtlı!";
+                return new ServiceResult
+                {
+                    IsSuccess = false,
+                    Message = "Bu TC kimlik numarası sisteme zaten kayıtlı!"
+                };
             }
 
             var newUser = new User
@@ -34,30 +39,46 @@ namespace DigitalWallet.Services
             };
 
             await _context.Users.AddAsync(newUser);
-            await _context.SaveChangesAsync(); 
+            await _context.SaveChangesAsync();
 
-            return "Kayıt işlemi başarıyla tamamlandı!";
+            return new ServiceResult
+            {
+                IsSuccess = true,
+                Message = "Kayıt işlemi başarıyla tamamlandı!"
+            };
 
         }
 
-        public async Task<string> Login(LoginDTO loginDto)
+        public async Task<ServiceResult> Login(LoginDTO loginDto)
         {
 
             var user = await _context.Users.FirstOrDefaultAsync(x => x.TC == loginDto.TC);
 
             if (user == null)
             {
-                return "Hatalı TC Kimlik Numarası veya Şifre!";
+                return new ServiceResult
+                {
+                    IsSuccess = false,
+                    Message = "Hatalı TC Kimlik Numarası veya Şifre!"
+                };
             }
 
             bool isPasswordCorrect = BCrypt.Net.BCrypt.Verify(loginDto.Password, user.PasswordHash);
 
             if (!isPasswordCorrect)
             {
-                return "Hatalı TC Kimlik Numarası veya Şifre!";
+                return new ServiceResult
+                {
+                    IsSuccess = false,
+                    Message = "Hatalı TC Kimlik Numarası veya Şifre!"
+                };
             }
 
-            return $"Giriş başarılı! Hoş geldin {user.Name} {user.Surname}";
+            return new ServiceResult
+            {
+                IsSuccess = true,
+                Message = $"Giriş başarılı! Hoş geldin {user.Name} {user.Surname}"
+            };
 
         }
     }

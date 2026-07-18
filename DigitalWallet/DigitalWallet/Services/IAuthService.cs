@@ -1,10 +1,11 @@
 ﻿using DigitalWallet.DTO;
+using DigitalWallet.Responses;
 
 namespace DigitalWallet.Services
 {
     public interface IAuthService
     {
-        Task<string> Register(RegisterDTO registerDto);
-        Task<string> Login(LoginDTO loginDto);
+        Task<ServiceResult> Register(RegisterDTO registerDto);
+        Task<ServiceResult> Login(LoginDTO loginDto);
     }
 }
