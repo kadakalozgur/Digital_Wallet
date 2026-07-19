@@ -31,5 +31,19 @@ namespace DigitalWallet.Controllers
             return Ok(result.Message);
 
         }
+
+        [HttpPost("login")]
+        public async Task<IActionResult> Login([FromBody] LoginDTO loginDTO)
+        {
+            var result = await _authService.Login(loginDTO);
+
+            if (!result.IsSuccess)
+            {
+                return Unauthorized(result.Message);
+            }
+
+            return Ok(result.Message);
+
+        }
     }
 }
