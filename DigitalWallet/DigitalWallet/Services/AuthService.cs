@@ -11,10 +11,12 @@ namespace DigitalWallet.Services
     {
 
         private readonly Database _context;
+        private readonly ITokenService _tokenService;
 
-        public AuthService(Database context)
+        public AuthService(Database context, ITokenService tokenService)
         {
             _context = context;
+            _tokenService = tokenService;
         }
 
         public async Task<ServiceResult> Register(RegisterDTO registerDto)
@@ -74,10 +76,12 @@ namespace DigitalWallet.Services
                 };
             }
 
+            var token = _tokenService.GenerateToken(user);
+
             return new ServiceResult
             {
                 IsSuccess = true,
-                Message = $"Giriş başarılı! Hoş geldin {user.Name} {user.Surname}"
+                Message = $"Giriş başarılı! Hoş geldin {user.Name} {user.Surname} -- Token: {token}"
             };
 
         }
