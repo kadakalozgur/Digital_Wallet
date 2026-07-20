@@ -8,7 +8,7 @@ namespace DigitalWallet.Models
         public int UserId { get; set; }
 
         [Precision(18, 2)]
-        public decimal Money {  get; set; }
+        public decimal Money { get; set; } = 0m;
         public User User { get; set; }
     }
 }
