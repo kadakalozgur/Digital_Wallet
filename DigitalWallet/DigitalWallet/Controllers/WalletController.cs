@@ -64,5 +64,28 @@ namespace DigitalWallet.Controllers
             return Ok(result);
 
         }
+
+        [HttpPost("withdraw")]
+        public async Task<IActionResult> Withdraw([FromBody] WithdrawDTO dto)
+        {
+            var userIdString = User.FindFirstValue(ClaimTypes.NameIdentifier);
+
+            if (string.IsNullOrEmpty(userIdString))
+            {
+                return Unauthorized("Kimlik doğrulama hatası! Geçersiz Token.");
+            }
+
+            int userId = int.Parse(userIdString);
+
+            var result = await _walletService.Withdraw(userId, dto.Amount);
+
+            if (!result.IsSuccess)
+            {
+                return BadRequest(result);
+            }
+
+            return Ok(result);
+
+        }
     }
 }
