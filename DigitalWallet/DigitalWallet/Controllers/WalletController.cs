@@ -87,5 +87,28 @@ namespace DigitalWallet.Controllers
             return Ok(result);
 
         }
+
+        [HttpPost("transfer")]
+        public async Task<IActionResult> Transfer([FromBody] TransferDTO dto)
+        {
+            var userIdString = User.FindFirstValue(ClaimTypes.NameIdentifier);
+
+            if (string.IsNullOrEmpty(userIdString))
+            {
+                return Unauthorized("Kimlik doğrulama hatası! Geçersiz Token.");
+            }
+
+            int senderId = int.Parse(userIdString);
+
+            var result = await _walletService.Transfer(senderId, dto.ReceiverTC, dto.Amount);
+
+            if (!result.IsSuccess)
+            {
+                return BadRequest(result); 
+            }
+
+            return Ok(result);
+
+        }
     }
 }

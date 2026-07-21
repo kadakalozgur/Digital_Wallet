@@ -115,6 +115,68 @@ namespace DigitalWallet.Services
                 IsSuccess = true,
                 Message = $"İşlem başarılı! Hesabınızdan {amount} TL çekildi. Kalan bakiyeniz: {user.Wallet.Money} TL"
             };
-        }     
+        }
+
+        public async Task<ServiceResult> Transfer(int senderId, string receiverTC, decimal amount)
+        {
+            if (amount <= 0)
+            {
+                return new ServiceResult
+                { 
+                    IsSuccess = false, 
+                    Message = "Transfer tutarı 0'dan büyük olmalıdır." 
+                };
+            }        
+
+            var sender = await _context.Users.Include(u => u.Wallet).FirstOrDefaultAsync(u => u.Id == senderId);
+            var receiver = await _context.Users.Include(u => u.Wallet).FirstOrDefaultAsync(u => u.TC == receiverTC);
+
+            if (sender == null || sender.Wallet == null)
+            {
+                return new ServiceResult
+                {
+                    IsSuccess = false,
+                    Message = "Gönderici hesap bulunamadı!"
+                };
+            }
+
+            if (receiver == null || receiver.Wallet == null)
+            {
+                return new ServiceResult
+                {
+                    IsSuccess = false,
+                    Message = "Alıcı hesap bulunamadı! Lütfen geçerli bir kullanıcı ID'si girin."
+                };
+            }
+
+            if (sender.Id == receiver.Id)
+            {
+                return new ServiceResult
+                {
+                    IsSuccess = false,
+                    Message = "Kendi kendinize para gönderemezsiniz!"
+                };
+            }           
+
+            if (sender.Wallet.Money < amount)
+            {
+                return new ServiceResult 
+                { 
+                    IsSuccess = false, 
+                    Message = $"Yetersiz bakiye! Mevcut bakiyeniz ({sender.Wallet.Money} TL), göndermek istediğiniz tutarı karşılamıyor." 
+                };
+            }
+
+            sender.Wallet.Money -= amount;
+            receiver.Wallet.Money += amount;
+
+            await _context.SaveChangesAsync();
+
+            return new ServiceResult
+            {
+                IsSuccess = true,
+                Message = $"Transfer başarılı! {receiver.Name} {receiver.Surname} adlı kullanıcıya {amount} TL gönderdiniz. Kalan bakiyeniz: {sender.Wallet.Money} TL"
+            };
+        }
     }
 }
