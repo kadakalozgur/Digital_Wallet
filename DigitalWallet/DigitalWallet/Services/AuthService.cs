@@ -37,7 +37,8 @@ namespace DigitalWallet.Services
                 Name = registerDto.Name,
                 Surname = registerDto.Surname,
                 TC = registerDto.TC,
-                PasswordHash = BCrypt.Net.BCrypt.HashPassword(registerDto.Password)
+                PasswordHash = BCrypt.Net.BCrypt.HashPassword(registerDto.Password),
+                Wallet = new Wallet { Money = 0m }
             };
 
             await _context.Users.AddAsync(newUser);
