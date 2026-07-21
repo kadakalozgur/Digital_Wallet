@@ -1,4 +1,5 @@
-﻿using DigitalWallet.Services;
+﻿using DigitalWallet.DTO;
+using DigitalWallet.Services;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -31,6 +32,29 @@ namespace DigitalWallet.Controllers
             int userId = int.Parse(userIdString);
 
             var result = await _walletService.GetBalance(userId);
+
+            if (!result.IsSuccess)
+            {
+                return NotFound(result);
+            }
+
+            return Ok(result);
+
+        }
+
+        [HttpPost("deposit")]
+        public async Task<IActionResult> Deposit([FromBody] DepositDTO dto)
+        {
+            var userIdString = User.FindFirstValue(ClaimTypes.NameIdentifier);
+
+            if (string.IsNullOrEmpty(userIdString))
+            {
+                return Unauthorized("Kimlik doğrulama hatası! Geçersiz Token.");
+            }
+
+            int userId = int.Parse(userIdString);
+
+            var result = await _walletService.Deposit(userId, dto.Amount);
 
             if (!result.IsSuccess)
             {
