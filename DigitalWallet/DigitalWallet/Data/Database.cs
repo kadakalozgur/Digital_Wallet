@@ -15,5 +15,6 @@ namespace DigitalWallet.Data
 
         public DbSet<User> Users { get; set; }
         public DbSet<Wallet> Wallets { get; set; }
+        public DbSet<Process> Transactions { get; set; }
     }
 }
