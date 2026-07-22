@@ -1,5 +1,6 @@
 ﻿using DigitalWallet.DTO;
 using DigitalWallet.Services;
+using IdempotentAPI.Filters;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -10,6 +11,7 @@ namespace DigitalWallet.Controllers
     [Route("api/[controller]")]
     [ApiController]
     [Authorize]
+    [Produces("application/json")]
     public class WalletController : ControllerBase
     {
         private readonly IWalletService _walletService;
@@ -43,6 +45,7 @@ namespace DigitalWallet.Controllers
         }
 
         [HttpPost("deposit")]
+        [Idempotent(ExpireHours = 1)]
         public async Task<IActionResult> Deposit([FromBody] DepositDTO dto)
         {
             var userIdString = User.FindFirstValue(ClaimTypes.NameIdentifier);
@@ -66,6 +69,7 @@ namespace DigitalWallet.Controllers
         }
 
         [HttpPost("withdraw")]
+        [Idempotent(ExpireHours = 1)]
         public async Task<IActionResult> Withdraw([FromBody] WithdrawDTO dto)
         {
             var userIdString = User.FindFirstValue(ClaimTypes.NameIdentifier);
@@ -89,6 +93,7 @@ namespace DigitalWallet.Controllers
         }
 
         [HttpPost("transfer")]
+        [Idempotent(ExpireHours = 1)]
         public async Task<IActionResult> Transfer([FromBody] TransferDTO dto)
         {
             var userIdString = User.FindFirstValue(ClaimTypes.NameIdentifier);

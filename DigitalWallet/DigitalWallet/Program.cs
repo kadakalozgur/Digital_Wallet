@@ -1,6 +1,8 @@
 using DigitalWallet.Data;
 using DigitalWallet.Services;
+using IdempotentAPI.Extensions.DependencyInjection;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
+using IdempotentAPI.Cache.DistributedCache.Extensions.DependencyInjection;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 using System;
@@ -40,6 +42,11 @@ builder.Services.AddAuthentication(options =>
 builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
+
+builder.Services.AddDistributedMemoryCache();
+builder.Services.AddSingleton<IdempotentAPI.Core.IIdempotencyOptions, IdempotentAPI.Core.IdempotencyOptions>();
+builder.Services.AddIdempotentAPIUsingDistributedCache();
+builder.Services.AddIdempotentAPI();
 
 var app = builder.Build();
 
