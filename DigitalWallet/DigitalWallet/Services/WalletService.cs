@@ -67,6 +67,15 @@ namespace DigitalWallet.Services
 
             user.Wallet.Money += amount;
 
+            var process = new Process
+            {
+                UserId = userId,
+                Amount = amount,
+                Type = ProcessType.Deposit,
+                Description = $"{amount} TL hesaba yatırıldı."
+            };
+            _context.Transactions.Add(process);
+
             await _context.SaveChangesAsync();
 
             return new ServiceResult
@@ -108,6 +117,16 @@ namespace DigitalWallet.Services
             }
 
             user.Wallet.Money -= amount;
+
+            var process = new Process
+            {
+                UserId = userId,
+                Amount = amount,
+                Type = ProcessType.Withdraw,
+                Description = $"{amount} TL hesaptan çekildi."
+            };
+            _context.Transactions.Add(process);
+
             await _context.SaveChangesAsync();
 
             return new ServiceResult
@@ -170,12 +189,54 @@ namespace DigitalWallet.Services
             sender.Wallet.Money -= amount;
             receiver.Wallet.Money += amount;
 
+            var senderProcess = new Process
+            {
+                UserId = senderId,
+                Amount = amount,
+                Type = ProcessType.Transfer,
+                Description = $"{receiverTC} TC numaralı kişiye {amount} TL transfer yapıldı."
+            };
+            _context.Transactions.Add(senderProcess);
+
+            var receiverProcess = new Process
+            {
+                UserId = receiver.Id,
+                Amount = amount,
+                Type = ProcessType.Transfer,
+                Description = $"Hesabınıza {amount} TL transfer geldi."
+            };
+            _context.Transactions.Add(receiverProcess);
+
             await _context.SaveChangesAsync();
 
             return new ServiceResult
             {
                 IsSuccess = true,
                 Message = $"Transfer başarılı! {receiver.Name} {receiver.Surname} adlı kullanıcıya {amount} TL gönderdiniz. Kalan bakiyeniz: {sender.Wallet.Money} TL"
+            };
+        }
+
+        public async Task<ServiceResult> GetHistory(int userId)
+        {
+            var history = await _context.Transactions
+                            .Where(t => t.UserId == userId)
+                            .OrderByDescending(t => t.Date)
+                            .ToListAsync();
+
+            if (!history.Any())
+            {
+                return new ServiceResult
+                {
+                    IsSuccess = false,
+                    Message = "Henüz hiçbir işlem geçmişiniz bulunmuyor."
+                };
+            }
+
+            return new ServiceResult
+            {
+                IsSuccess = true,
+                Message = "İşlem geçmişi başarıyla getirildi.",
+                Data = history
             };
         }
     }

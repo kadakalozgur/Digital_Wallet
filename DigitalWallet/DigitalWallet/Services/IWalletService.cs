@@ -8,5 +8,6 @@ namespace DigitalWallet.Services
         Task<ServiceResult> Deposit(int userId, decimal amount);
         Task<ServiceResult> Withdraw(int userId, decimal amount);
         Task<ServiceResult> Transfer(int senderId, string receiverTC, decimal amount);
+        Task<ServiceResult> GetHistory(int userId);
     }
 }

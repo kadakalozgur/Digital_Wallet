@@ -115,5 +115,27 @@ namespace DigitalWallet.Controllers
             return Ok(result);
 
         }
+
+        [HttpGet("history")]
+        public async Task<IActionResult> GetHistory()
+        {
+            var userIdString = User.FindFirstValue(ClaimTypes.NameIdentifier);
+
+            if (string.IsNullOrEmpty(userIdString))
+            {
+                return Unauthorized("Geçersiz Token.");
+            }
+
+            int userId = int.Parse(userIdString);
+            var result = await _walletService.GetHistory(userId);
+
+            if (!result.IsSuccess)
+            {
+                return NotFound(result);
+            }
+
+            return Ok(result); 
+
+        }
     }
 }
