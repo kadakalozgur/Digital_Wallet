@@ -1,12 +1,14 @@
 using DigitalWallet.Data;
 using DigitalWallet.Services;
+using IdempotentAPI.Cache.DistributedCache.Extensions.DependencyInjection;
 using IdempotentAPI.Extensions.DependencyInjection;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
-using IdempotentAPI.Cache.DistributedCache.Extensions.DependencyInjection;
+using Microsoft.AspNetCore.RateLimiting;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 using System;
 using System.Text;
+using System.Threading.RateLimiting;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -19,6 +21,21 @@ builder.Services.AddScoped<IWalletService, WalletService>();
 
 var jwtSettings = builder.Configuration.GetSection("JwtSettings");
 var secretKey = jwtSettings["SecretKey"];
+
+builder.Services.AddRateLimiter(options =>
+{
+    options.AddSlidingWindowLimiter("WalletLimiter", opt =>
+    {
+        opt.Window = TimeSpan.FromSeconds(10);  
+        opt.PermitLimit = 5;                   
+        opt.SegmentsPerWindow = 5;              
+        opt.QueueLimit = 0;                    
+        opt.QueueProcessingOrder = QueueProcessingOrder.OldestFirst;
+    });
+
+    options.RejectionStatusCode = StatusCodes.Status429TooManyRequests;
+
+});
 
 builder.Services.AddAuthentication(options =>
 {
@@ -59,6 +76,8 @@ if (app.Environment.IsDevelopment())
 }
 
 app.UseHttpsRedirection();
+
+app.UseRateLimiter();
 
 app.UseAuthentication();
 app.UseAuthorization();

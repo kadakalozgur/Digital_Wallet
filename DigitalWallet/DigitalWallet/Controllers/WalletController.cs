@@ -4,6 +4,7 @@ using IdempotentAPI.Filters;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.RateLimiting;
 using System.Security.Claims;
 
 namespace DigitalWallet.Controllers
@@ -12,6 +13,7 @@ namespace DigitalWallet.Controllers
     [ApiController]
     [Authorize]
     [Produces("application/json")]
+    [EnableRateLimiting("WalletLimiter")]
     public class WalletController : ControllerBase
     {
         private readonly IWalletService _walletService;
