@@ -1,4 +1,5 @@
 ﻿using DigitalWallet.Data;
+using DigitalWallet.DTO;
 using DigitalWallet.Models;
 using DigitalWallet.Responses;
 using Microsoft.EntityFrameworkCore;
@@ -216,26 +217,30 @@ namespace DigitalWallet.Services
             };
         }
 
-        public async Task<ServiceResult> GetHistory(int userId)
+        public async Task<ServiceResult> GetHistory(int userId,FilterDTO filter)
         {
-            var history = await _context.Transactions
-                            .Where(t => t.UserId == userId)
-                            .OrderByDescending(t => t.Date)
-                            .ToListAsync();
+            var query = _context.Transactions
+                    .Where(t => t.UserId == userId)
+                    .OrderByDescending(t => t.Date);
+
+            var history = await query
+                    .Skip((filter.PageNumber - 1) * filter.PageSize)
+                    .Take(filter.PageSize)
+                    .ToListAsync();
 
             if (!history.Any())
             {
                 return new ServiceResult
                 {
                     IsSuccess = false,
-                    Message = "Henüz hiçbir işlem geçmişiniz bulunmuyor."
+                    Message = "Belirtilen sayfada hiçbir işlem geçmişi bulunamadı."
                 };
             }
 
             return new ServiceResult
             {
                 IsSuccess = true,
-                Message = "İşlem geçmişi başarıyla getirildi.",
+                Message = $"Sayfa {filter.PageNumber} başarıyla getirildi.",
                 Data = history
             };
         }

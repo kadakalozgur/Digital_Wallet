@@ -117,7 +117,7 @@ namespace DigitalWallet.Controllers
         }
 
         [HttpGet("history")]
-        public async Task<IActionResult> GetHistory()
+        public async Task<IActionResult> GetHistory([FromQuery] FilterDTO filter)
         {
             var userIdString = User.FindFirstValue(ClaimTypes.NameIdentifier);
 
@@ -127,7 +127,7 @@ namespace DigitalWallet.Controllers
             }
 
             int userId = int.Parse(userIdString);
-            var result = await _walletService.GetHistory(userId);
+            var result = await _walletService.GetHistory(userId,filter);
 
             if (!result.IsSuccess)
             {
