@@ -190,7 +190,7 @@ cd DigitalWallet
 
 ## 2️⃣ Restore / Install Required NuGet Packages
 
-If the required NuGet packages are not restored automatically, install them using **NuGet Package Manager** or the **.NET CLI**.
+If the required NuGet packages are not restored automatically, install them using **NuGet Package Manager**.
 
 ### Required Packages
 
@@ -205,9 +205,9 @@ If the required NuGet packages are not restored automatically, install them usin
 | Serilog.AspNetCore | Structured logging |
 | Swashbuckle.AspNetCore | Swagger / OpenAPI documentation |
 
-Or install them manually:
+Or install them manually using the **Package Manager Console**:
 
-```bash
+```powershell
 Install-Package BCrypt.Net-Next
 Install-Package IdempotentAPI
 Install-Package IdempotentAPI.Cache.DistributedCache
@@ -220,7 +220,21 @@ Install-Package Swashbuckle.AspNetCore
 
 ---
 
-## 3️⃣ Create the Database
+## 3️⃣ Configure the Database Connection (Optional)
+
+Open the `appsettings.json` file and ensure that the connection string matches your local SQL Server instance.
+
+```json
+"ConnectionStrings": {
+  "DefaultConnection": "Server=(localdb)\\MSSQLLocalDB;Database=DigitalWalletDb;Trusted_Connection=True;MultipleActiveResultSets=true"
+}
+```
+
+> 💡 The default configuration uses **SQL Server LocalDB**. If you are using SQL Server Express or another SQL Server instance, update the connection string accordingly.
+
+---
+
+## 4️⃣ Create the Database
 
 Open:
 
@@ -240,7 +254,7 @@ Update-Database
 
 ---
 
-## 4️⃣ Configure JWT Secret Key
+## 5️⃣ Configure JWT Secret Key
 
 ### Option 1 — appsettings.json
 
@@ -491,7 +505,7 @@ cd DigitalWallet
 
 ## 2️⃣ Gerekli NuGet Paketlerini Yükleyin
 
-Gerekli NuGet paketleri otomatik olarak yüklenmezse, **NuGet Package Manager** veya **.NET CLI** kullanarak aşağıdaki paketleri yükleyin.
+Gerekli NuGet paketleri otomatik olarak yüklenmezse, **NuGet Package Manager** kullanarak aşağıdaki paketleri yükleyin.
 
 ### Gerekli Paketler
 
@@ -506,9 +520,9 @@ Gerekli NuGet paketleri otomatik olarak yüklenmezse, **NuGet Package Manager** 
 | Serilog.AspNetCore | Yapısal loglama (Structured Logging) |
 | Swashbuckle.AspNetCore | Swagger / OpenAPI dokümantasyonu |
 
-Veya paketleri terminal üzerinden manuel olarak yükleyebilirsiniz:
+Veya paketleri **Package Manager Console** üzerinden manuel olarak yükleyebilirsiniz:
 
-```bash
+```powershell
 Install-Package BCrypt.Net-Next
 Install-Package IdempotentAPI
 Install-Package IdempotentAPI.Cache.DistributedCache
@@ -521,7 +535,21 @@ Install-Package Swashbuckle.AspNetCore
 
 ---
 
-## 3️⃣ Veritabanını Oluşturun
+## 3️⃣ Veritabanı Bağlantısını Yapılandırın (Opsiyonel)
+
+`appsettings.json` dosyasını açın ve bağlantı cümlesinin (**Connection String**) kendi yerel SQL Server örneğinizle eşleştiğinden emin olun.
+
+```json
+"ConnectionStrings": {
+  "DefaultConnection": "Server=(localdb)\\MSSQLLocalDB;Database=DigitalWalletDb;Trusted_Connection=True;MultipleActiveResultSets=true"
+}
+```
+
+> 💡 Varsayılan yapılandırma **SQL Server LocalDB** kullanmaktadır. SQL Server Express veya farklı bir SQL Server örneği kullanıyorsanız bağlantı cümlesini buna göre güncelleyin.
+
+---
+
+## 4️⃣ Veritabanını Oluşturun
 
 Visual Studio'da aşağıdaki yolu izleyin:
 
@@ -541,7 +569,7 @@ Update-Database
 
 ---
 
-## 4️⃣ JWT Secret Key Ayarlayın
+## 5️⃣ JWT Secret Key Ayarlayın
 
 ### Seçenek 1 — appsettings.json
 
