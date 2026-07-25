@@ -3,16 +3,19 @@ using DigitalWallet.DTO;
 using DigitalWallet.Models;
 using DigitalWallet.Responses;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Logging;
 
 namespace DigitalWallet.Services
 {
     public class WalletService : IWalletService
     {
         private readonly Database _context;
+        private readonly ILogger<WalletService> _logger;
 
-        public WalletService(Database context)
+        public WalletService(Database context, ILogger<WalletService> logger)
         {
             _context = context; 
+            _logger = logger;   
         }
 
         public async Task<ServiceResult> GetBalance(int userId)
@@ -79,6 +82,8 @@ namespace DigitalWallet.Services
 
             await _context.SaveChangesAsync();
 
+            _logger.LogInformation("PARA YATIRMA: {UserId} ID'li kullanıcı hesabına {Amount} TL yatırdı. Yeni Bakiye: {NewBalance}", userId, amount, user.Wallet.Money);
+
             return new ServiceResult
             {
                 IsSuccess = true,
@@ -110,6 +115,8 @@ namespace DigitalWallet.Services
 
             if (user.Wallet.Money < amount)
             {
+                _logger.LogWarning("BAŞARISIZ İŞLEM (Yetersiz Bakiye): {UserId} ID'li kullanıcı {Amount} TL çekmek istedi. Mevcut Bakiye: {Balance}", userId, amount, user.Wallet.Money);
+
                 return new ServiceResult
                 {
                     IsSuccess = false,
@@ -129,6 +136,8 @@ namespace DigitalWallet.Services
             _context.Transactions.Add(process);
 
             await _context.SaveChangesAsync();
+
+            _logger.LogInformation("PARA ÇEKME: {UserId} ID'li kullanıcı hesabından {Amount} TL çekti. Kalan Bakiye: {NewBalance}", userId, amount, user.Wallet.Money);
 
             return new ServiceResult
             {
@@ -180,6 +189,8 @@ namespace DigitalWallet.Services
 
             if (sender.Wallet.Money < amount)
             {
+                _logger.LogWarning("BAŞARISIZ TRANSFER (Yetersiz Bakiye): {SenderId} ID'li kullanıcı, {ReceiverId} ID'li kullanıcıya {Amount} TL göndermek istedi. Mevcut Bakiye: {Balance}", senderId, receiver.Id, amount, sender.Wallet.Money);
+
                 return new ServiceResult 
                 { 
                     IsSuccess = false, 
@@ -195,7 +206,7 @@ namespace DigitalWallet.Services
                 UserId = senderId,
                 Amount = amount,
                 Type = ProcessType.Transfer,
-                Description = $"{receiverTC} TC numaralı kişiye {amount} TL transfer yapıldı."
+                Description = $"{receiver.Name} {receiver.Surname} adlı kişiye {amount} TL transfer yapıldı."
             };
             _context.Transactions.Add(senderProcess);
 
@@ -209,6 +220,8 @@ namespace DigitalWallet.Services
             _context.Transactions.Add(receiverProcess);
 
             await _context.SaveChangesAsync();
+
+            _logger.LogInformation("TRANSFER BAŞARILI: {SenderId} ID'li kullanıcı, {ReceiverId} ID'li kullanıcıya {Amount} TL gönderdi. Gönderen Kalan Bakiye: {NewBalance}", senderId, receiver.Id, amount, sender.Wallet.Money);
 
             return new ServiceResult
             {

@@ -1,8 +1,10 @@
 ﻿using DigitalWallet.Data;
 using DigitalWallet.DTO;
+using DigitalWallet.Helpers;
 using DigitalWallet.Models;
 using DigitalWallet.Responses;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Logging;
 using System.Runtime.CompilerServices;
 
 namespace DigitalWallet.Services
@@ -12,11 +14,13 @@ namespace DigitalWallet.Services
 
         private readonly Database _context;
         private readonly ITokenService _tokenService;
+        private readonly ILogger<AuthService> _logger;
 
-        public AuthService(Database context, ITokenService tokenService)
+        public AuthService(Database context, ITokenService tokenService, ILogger<AuthService> logger)
         {
             _context = context;
             _tokenService = tokenService;
+            _logger = logger;
         }
 
         public async Task<ServiceResult> Register(RegisterDTO registerDto)
@@ -25,6 +29,8 @@ namespace DigitalWallet.Services
 
             if (isUserExist)
             {
+                _logger.LogWarning("BAŞARISIZ KAYIT: Sistemde zaten var olan {TC} TC numarası ile kayıt olunmaya çalışıldı.", registerDto.TC.MaskTC());
+
                 return new ServiceResult
                 {
                     IsSuccess = false,
@@ -44,6 +50,8 @@ namespace DigitalWallet.Services
             await _context.Users.AddAsync(newUser);
             await _context.SaveChangesAsync();
 
+            _logger.LogInformation("YENİ KAYIT: {UserId} ID'li ve {TC} TC numaralı kullanıcı sisteme başarıyla kayıt oldu.", newUser.Id, newUser.TC.MaskTC());
+
             return new ServiceResult
             {
                 IsSuccess = true,
@@ -59,6 +67,8 @@ namespace DigitalWallet.Services
 
             if (user == null)
             {
+                _logger.LogWarning("BAŞARISIZ GİRİŞ: Sistemde kayıtlı olmayan {TC} TC numarası ile giriş yapılmaya çalışıldı.", loginDto.TC.MaskTC());
+
                 return new ServiceResult
                 {
                     IsSuccess = false,
@@ -70,6 +80,8 @@ namespace DigitalWallet.Services
 
             if (!isPasswordCorrect)
             {
+                _logger.LogWarning("BAŞARISIZ GİRİŞ: {TC} TC numaralı kullanıcı için HATALI ŞİFRE girildi.", loginDto.TC.MaskTC());
+
                 return new ServiceResult
                 {
                     IsSuccess = false,
@@ -78,6 +90,8 @@ namespace DigitalWallet.Services
             }
 
             var token = _tokenService.GenerateToken(user);
+
+            _logger.LogInformation("BAŞARILI GİRİŞ: {UserId} ID'li ({TC}) kullanıcı sisteme başarıyla giriş yaptı.", user.Id, user.TC.MaskTC());
 
             return new ServiceResult
             {
