@@ -279,7 +279,7 @@ For feedback, questions or suggestions:
 
 ## 🟢 API Genel Bakış (Swagger UI)
 
-![Swagger](Screenshots/swagger.png)
+![Swagger](Galery/6.png)
 
 ---
 
@@ -287,7 +287,7 @@ For feedback, questions or suggestions:
 
 > Yetkili istekler için geçerli bir JSON Web Token (JWT) üreten güvenli giriş sistemi.
 
-![Login](Screenshots/postman_login.png)
+![Login](Galery/2.png)
 
 ---
 
@@ -295,7 +295,7 @@ For feedback, questions or suggestions:
 
 > Kullanıcılar güvenli şekilde para yatırabilir. Idempotency mekanizması, ağ hataları veya tekrar eden istekler nedeniyle oluşabilecek mükerrer finansal işlemleri engeller.
 
-![Deposit](Screenshots/postman_deposit.png)
+![Deposit](Galery/3.png)
 
 ---
 
@@ -303,7 +303,7 @@ For feedback, questions or suggestions:
 
 > TC Kimlik Numarası ile güvenli para transferi yapılır. Hassas veriler loglarda maskelenerek KVKK ilkelerine uygun şekilde korunur.
 
-![Transfer](Screenshots/postman_transfer.png)
+![Transfer](Galery/4.png)
 
 ---
 
@@ -311,7 +311,7 @@ For feedback, questions or suggestions:
 
 > PageNumber ve PageSize parametreleri kullanılarak sunucu tarafında optimize edilmiş sayfalama desteği.
 
-![History](Screenshots/postman_history.png)
+![History](Galery/5.png)
 
 ---
 
