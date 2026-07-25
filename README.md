@@ -174,9 +174,13 @@ Controller
 
 ## 1️⃣ Clone the Repository
 
+Clone the repository to your local machine.
+
 ```bash
 git clone https://github.com/kadakalozgur/DigitalWallet.git
 ```
+
+Navigate to the project directory.
 
 ```bash
 cd DigitalWallet
@@ -184,9 +188,41 @@ cd DigitalWallet
 
 ---
 
-## 2️⃣ Create the Database
+## 2️⃣ Restore / Install Required NuGet Packages
 
-Open
+If the required NuGet packages are not restored automatically, install them using **NuGet Package Manager** or the **.NET CLI**.
+
+### Required Packages
+
+| Package | Purpose |
+|----------|---------|
+| BCrypt.Net-Next | Password hashing |
+| IdempotentAPI | Prevent duplicate financial requests |
+| IdempotentAPI.Cache.DistributedCache | Distributed cache support for IdempotentAPI |
+| Microsoft.AspNetCore.Authentication.JwtBearer | JWT Authentication |
+| Microsoft.EntityFrameworkCore.SqlServer | SQL Server provider |
+| Microsoft.EntityFrameworkCore.Tools | Entity Framework migrations |
+| Serilog.AspNetCore | Structured logging |
+| Swashbuckle.AspNetCore | Swagger / OpenAPI documentation |
+
+Or install them manually:
+
+```bash
+dotnet add package BCrypt.Net-Next
+dotnet add package IdempotentAPI
+dotnet add package IdempotentAPI.Cache.DistributedCache
+dotnet add package Microsoft.AspNetCore.Authentication.JwtBearer
+dotnet add package Microsoft.EntityFrameworkCore.SqlServer
+dotnet add package Microsoft.EntityFrameworkCore.Tools
+dotnet add package Serilog.AspNetCore
+dotnet add package Swashbuckle.AspNetCore
+```
+
+---
+
+## 3️⃣ Create the Database
+
+Open:
 
 ```
 Tools
@@ -194,7 +230,7 @@ Tools
 → Package Manager Console
 ```
 
-Run
+Run:
 
 ```powershell
 Update-Database
@@ -204,7 +240,7 @@ Update-Database
 
 ---
 
-## 3️⃣ Configure JWT Secret Key
+## 4️⃣ Configure JWT Secret Key
 
 ### Option 1 — appsettings.json
 
@@ -218,13 +254,13 @@ Update-Database
 
 ### Option 2 — User Secrets (Recommended)
 
-Initialize
+Initialize User Secrets:
 
 ```bash
 dotnet user-secrets init
 ```
 
-Then set the key
+Then set your JWT key:
 
 ```bash
 dotnet user-secrets set "JwtSettings:Key" "your-super-secret-key-at-least-32-bytes"
@@ -439,9 +475,13 @@ Controller
 
 ## 1️⃣ Projeyi Klonlayın
 
+Projeyi bilgisayarınıza klonlayın.
+
 ```bash
 git clone https://github.com/kadakalozgur/DigitalWallet.git
 ```
+
+Proje dizinine geçin.
 
 ```bash
 cd DigitalWallet
@@ -449,9 +489,41 @@ cd DigitalWallet
 
 ---
 
-## 2️⃣ Veritabanını Oluşturun
+## 2️⃣ Gerekli NuGet Paketlerini Yükleyin
 
-Visual Studio içerisinde
+Gerekli NuGet paketleri otomatik olarak yüklenmezse, **NuGet Package Manager** veya **.NET CLI** kullanarak aşağıdaki paketleri yükleyin.
+
+### Gerekli Paketler
+
+| Paket | Açıklama |
+|--------|----------|
+| BCrypt.Net-Next | Şifrelerin güvenli şekilde hashlenmesi |
+| IdempotentAPI | Mükerrer finansal istekleri önler |
+| IdempotentAPI.Cache.DistributedCache | IdempotentAPI için dağıtık önbellek desteği |
+| Microsoft.AspNetCore.Authentication.JwtBearer | JWT tabanlı kimlik doğrulama |
+| Microsoft.EntityFrameworkCore.SqlServer | SQL Server sağlayıcısı |
+| Microsoft.EntityFrameworkCore.Tools | Entity Framework migration araçları |
+| Serilog.AspNetCore | Yapısal loglama (Structured Logging) |
+| Swashbuckle.AspNetCore | Swagger / OpenAPI dokümantasyonu |
+
+Veya paketleri terminal üzerinden manuel olarak yükleyebilirsiniz:
+
+```bash
+dotnet add package BCrypt.Net-Next
+dotnet add package IdempotentAPI
+dotnet add package IdempotentAPI.Cache.DistributedCache
+dotnet add package Microsoft.AspNetCore.Authentication.JwtBearer
+dotnet add package Microsoft.EntityFrameworkCore.SqlServer
+dotnet add package Microsoft.EntityFrameworkCore.Tools
+dotnet add package Serilog.AspNetCore
+dotnet add package Swashbuckle.AspNetCore
+```
+
+---
+
+## 3️⃣ Veritabanını Oluşturun
+
+Visual Studio'da aşağıdaki yolu izleyin:
 
 ```
 Tools
@@ -459,17 +531,17 @@ Tools
 → Package Manager Console
 ```
 
-açın ve çalıştırın:
+Ardından aşağıdaki komutu çalıştırın:
 
 ```powershell
 Update-Database
 ```
 
-> ⚠️ Bu adımı atlamanız durumunda uygulama başlangıçta hata verecektir.
+> ⚠️ Bu adımı atlarsanız uygulama başlatılırken hata oluşacaktır.
 
 ---
 
-## 3️⃣ JWT Secret Key Ayarlayın
+## 4️⃣ JWT Secret Key Ayarlayın
 
 ### Seçenek 1 — appsettings.json
 
@@ -483,9 +555,13 @@ Update-Database
 
 ### Seçenek 2 — User Secrets (Önerilir)
 
+Öncelikle User Secrets özelliğini etkinleştirin:
+
 ```bash
 dotnet user-secrets init
 ```
+
+Ardından JWT anahtarınızı tanımlayın:
 
 ```bash
 dotnet user-secrets set "JwtSettings:Key" "gizli-ve-en-az-32-byte-anahtariniz"
