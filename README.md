@@ -10,7 +10,7 @@
 
 ## 🟢 API Overview (Swagger UI)
 
-![Swagger](Screenshots/swagger.png)
+![Swagger](Galery/6.png)
 
 ---
 
@@ -18,7 +18,7 @@
 
 > Secure login system that generates a valid JSON Web Token (JWT) for authorized requests.
 
-![Login](Screenshots/postman_login.png)
+![Login](Galery/2.png)
 
 ---
 
@@ -26,7 +26,7 @@
 
 > Users can securely deposit money. The Idempotency mechanism prevents duplicate financial transactions caused by network failures or repeated requests.
 
-![Deposit](Screenshots/postman_deposit.png)
+![Deposit](Galery/3.png)
 
 ---
 
@@ -34,7 +34,7 @@
 
 > Secure peer-to-peer transfers using Turkish Identity Numbers (TC). Sensitive information is masked in logs to comply with KVKK privacy principles.
 
-![Transfer](Screenshots/postman_transfer.png)
+![Transfer](Galery/4.png)
 
 ---
 
@@ -42,7 +42,7 @@
 
 > Optimized transaction history with server-side pagination using **PageNumber** and **PageSize**.
 
-![History](Screenshots/postman_history.png)
+![History](Galery/5.png)
 
 ---
 
