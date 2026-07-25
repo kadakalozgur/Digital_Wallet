@@ -208,14 +208,14 @@ If the required NuGet packages are not restored automatically, install them usin
 Or install them manually:
 
 ```bash
-dotnet add package BCrypt.Net-Next
-dotnet add package IdempotentAPI
-dotnet add package IdempotentAPI.Cache.DistributedCache
-dotnet add package Microsoft.AspNetCore.Authentication.JwtBearer
-dotnet add package Microsoft.EntityFrameworkCore.SqlServer
-dotnet add package Microsoft.EntityFrameworkCore.Tools
-dotnet add package Serilog.AspNetCore
-dotnet add package Swashbuckle.AspNetCore
+Install-Package BCrypt.Net-Next
+Install-Package IdempotentAPI
+Install-Package IdempotentAPI.Cache.DistributedCache
+Install-Package Microsoft.AspNetCore.Authentication.JwtBearer
+Install-Package Microsoft.EntityFrameworkCore.SqlServer
+Install-Package Microsoft.EntityFrameworkCore.Tools
+Install-Package Serilog.AspNetCore
+Install-Package Swashbuckle.AspNetCore
 ```
 
 ---
@@ -509,14 +509,14 @@ Gerekli NuGet paketleri otomatik olarak yüklenmezse, **NuGet Package Manager** 
 Veya paketleri terminal üzerinden manuel olarak yükleyebilirsiniz:
 
 ```bash
-dotnet add package BCrypt.Net-Next
-dotnet add package IdempotentAPI
-dotnet add package IdempotentAPI.Cache.DistributedCache
-dotnet add package Microsoft.AspNetCore.Authentication.JwtBearer
-dotnet add package Microsoft.EntityFrameworkCore.SqlServer
-dotnet add package Microsoft.EntityFrameworkCore.Tools
-dotnet add package Serilog.AspNetCore
-dotnet add package Swashbuckle.AspNetCore
+Install-Package BCrypt.Net-Next
+Install-Package IdempotentAPI
+Install-Package IdempotentAPI.Cache.DistributedCache
+Install-Package Microsoft.AspNetCore.Authentication.JwtBearer
+Install-Package Microsoft.EntityFrameworkCore.SqlServer
+Install-Package Microsoft.EntityFrameworkCore.Tools
+Install-Package Serilog.AspNetCore
+Install-Package Swashbuckle.AspNetCore
 ```
 
 ---
