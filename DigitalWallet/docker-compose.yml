@@ -1,8 +1,5 @@
-version: '3.4'
-
 services:
   digitalwallet:
-    image: ${DOCKER_REGISTRY-}digitalwallet
     build:
       context: .
       dockerfile: DigitalWallet/Dockerfile
