@@ -280,45 +280,6 @@ Then set your JWT key:
 dotnet user-secrets set "JwtSettings:Key" "your-super-secret-key-at-least-32-bytes"
 ```
 
-## 🐳 Alternative: Quick Setup with Docker
-
-If you don't want to install the .NET SDK or SQL Server on your computer, you can run the entire project using Docker. You only need Docker Desktop installed and running.
-
-### 1️⃣ Configure Docker Settings
-
-Open the `docker-compose.yml` file in the project's root directory.
-
-For security reasons, replace the placeholder values with your own secrets:
-
-- Set both `Password=<YOUR_PASSWORD>` and `MSSQL_SA_PASSWORD=<YOUR_PASSWORD>` to the same SQL Server password.
-- Set `JwtSettings__SecretKey=<YOUR_SECRET_KEY>` to a secure JWT secret key.
-
-### 2️⃣ Start the Containers
-
-Run the following command from the project directory:
-
-```bash
-docker-compose up -d --build
-```
-
-Docker will build the API, create the required containers, and start SQL Server automatically.
-
-### 3️⃣ Apply Database Migrations
-
-After the containers are running, apply the Entity Framework migrations:
-
-```powershell
-Update-Database
-```
-
-or
-
-```bash
-dotnet ef database update
-```
-
-> 💡 After the migration is complete, the API is ready to use.
-
 ---
 
 # 🛠 Tech Stack
@@ -633,45 +594,6 @@ Ardından JWT anahtarınızı tanımlayın:
 ```bash
 dotnet user-secrets set "JwtSettings:Key" "gizli-ve-en-az-32-byte-anahtariniz"
 ```
-
-## 🐳 Alternatif: Docker ile Hızlı Kurulum
-
-Bilgisayarınıza .NET SDK veya SQL Server kurmak istemiyorsanız, projeyi Docker kullanarak kolayca çalıştırabilirsiniz. Bunun için yalnızca Docker Desktop'ın kurulu ve çalışıyor olması yeterlidir.
-
-### 1️⃣ Docker Ayarlarını Yapılandırın
-
-Projenin ana dizininde bulunan `docker-compose.yml` dosyasını açın.
-
-Güvenlik nedeniyle aşağıdaki değerleri kendinize göre düzenleyin:
-
-- `Password=<BURAYA_ŞİFRENİZ>` ve `MSSQL_SA_PASSWORD=<BURAYA_ŞİFRENİZ>` alanlarına aynı SQL Server şifresini yazın.
-- `JwtSettings__SecretKey=<BURAYA_SECRET_KEY>` alanına uygulamanın kullanacağı güçlü bir JWT Secret Key girin.
-
-### 2️⃣ Sistemi Başlatın
-
-Proje klasöründe aşağıdaki komutu çalıştırın:
-
-```bash
-docker-compose up -d --build
-```
-
-Docker, API projesini derleyecek, gerekli container'ları oluşturacak ve SQL Server veritabanını otomatik olarak başlatacaktır.
-
-### 3️⃣ Veritabanı Migration İşlemini Uygulayın
-
-Container'lar çalıştıktan sonra veritabanı tablolarını oluşturmak için migration'ları uygulayın:
-
-```powershell
-Update-Database
-```
-
-veya
-
-```bash
-dotnet ef database update
-```
-
-> 💡 Migration tamamlandıktan sonra API kullanıma hazır olacaktır.
 
 ---
 
