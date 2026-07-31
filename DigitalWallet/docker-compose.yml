@@ -1,0 +1,28 @@
+version: '3.4'
+
+services:
+  digitalwallet:
+    image: ${DOCKER_REGISTRY-}digitalwallet
+    build:
+      context: .
+      dockerfile: DigitalWallet/Dockerfile
+    ports:
+      - "8080:8080"
+    depends_on:
+      - sql-database
+    environment:
+      - ConnectionStrings__DefaultConnection=Server=sql-database;Database=DigitalWalletDb;User Id=sa;Password=<BURAYA_KENDI_VERITABANI_SIFRENIZI_YAZIN>;TrustServerCertificate=True;
+      - JwtSettings__SecretKey=<BURAYA_KENDI_GIZLI_ANAHTARINIZI_YAZIN>
+
+  sql-database:
+    image: mcr.microsoft.com/mssql/server:2022-latest
+    environment:
+      - ACCEPT_EULA=Y
+      - MSSQL_SA_PASSWORD=<BURAYA_KENDI_VERITABANI_SIFRENIZI_YAZIN>
+    ports:
+      - "1433:1433"
+    volumes:
+      - digitalwallet-db-data:/var/opt/mssql
+
+volumes:
+  digitalwallet-db-data:
