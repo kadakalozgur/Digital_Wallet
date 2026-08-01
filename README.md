@@ -266,8 +266,6 @@ The application is configured to automatically apply any pending Entity Framewor
 Update-Database
 ```
 
-> ⚠️ Skipping this step will cause the application to fail during startup.
-
 ---
 
 ## 5️⃣ Configure JWT Secret Key
@@ -596,8 +594,6 @@ Uygulama, `Program.cs` üzerinden bekleyen Entity Framework Core migrationların
 ```powershell
 Update-Database
 ```
-
-> ⚠️ Bu adımı atlarsanız uygulama başlatılırken hata oluşacaktır.
 
 ---
 
