@@ -93,6 +93,13 @@ app.UseAuthorization();
 
 app.MapControllers();
 
+// Docker ile test edecek kiþiler için uygulama baþladýðý anda tablolarý oluþturduðumuz migration iþlemi
+using (var scope = app.Services.CreateScope())
+{
+    var db = scope.ServiceProvider.GetRequiredService<Database>();
+    db.Database.Migrate();
+}
+
 app.Run();
 
 Log.CloseAndFlush();
