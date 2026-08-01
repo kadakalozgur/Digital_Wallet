@@ -11,6 +11,7 @@ services:
     depends_on:
       - sql-database
     environment:
+      - ASPNETCORE_URLS=http://+:8080
       - ConnectionStrings__DefaultConnection=Server=sql-database;Database=DigitalWalletDb;User Id=sa;Password=HarikaProjem123!;TrustServerCertificate=True;
       - JwtSettings__SecretKey=BenimCokGizliAnahtarim_ProjelerIcin_123
 
