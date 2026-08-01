@@ -170,7 +170,7 @@ Controller
 
 ---
 
-# 🚀 Quick Setup for Testing (Docker)
+# 🐳 Quick Setup for Testing (Docker)
 
 If you only want to test the project, you do not need to install Visual Studio or SQL Server.
 
@@ -181,6 +181,13 @@ docker-compose up -d --build
 ```
 
 This command automatically starts both the API and the database in the background.
+
+> 💡 **Important Testing Notes:**
+>
+> - After starting the containers, you can access the Swagger UI at:
+>   `http://localhost:8080/swagger/index.html`
+> - All API endpoints are available through the Swagger interface. Remember that the application is running on **port 8080**.
+> - Since the project is running inside Docker for testing purposes, **HTTP** is used instead of **HTTPS**.
 
 > ⚠️ **Warning:** For testing convenience, the JWT Secret Key and database connection settings are embedded in the `docker-compose.yml` file. If you want to use your own credentials, update the `environment` variables in that file before starting the project.
 
@@ -499,7 +506,7 @@ Controller
 
 ---
 
-# 🚀 Test Edenler İçin Hızlı Kurulum (Docker)
+# 🐳 Test Edenler İçin Hızlı Kurulum (Docker)
 
 Projeyi yalnızca test etmek istiyorsanız Visual Studio veya SQL Server kurmanıza gerek yoktur.
 
@@ -510,6 +517,13 @@ docker-compose up -d --build
 ```
 
 Bu komut API ve veritabanını arka planda otomatik olarak ayağa kaldırır.
+
+> 💡 **Önemli Test Notları:**
+>
+> - Konteynerleri başlattıktan sonra Swagger arayüzüne aşağıdaki adresten ulaşabilirsiniz:
+>   `http://localhost:8080/swagger/index.html`
+> - Tüm API endpoint'lerine bu Swagger arayüzü üzerinden erişebilirsiniz. Uygulamanın **8080** portunda çalıştığını unutmayın.
+> - Proje Docker ortamında test amacıyla çalıştırıldığı için **HTTPS yerine HTTP** kullanılmaktadır.
 
 > ⚠️ **Uyarı:** Test kolaylığı için JWT Secret Key ve veritabanı bağlantı bilgileri `docker-compose.yml` dosyasına gömülüdür. Kendi bilgilerinizi kullanmak isterseniz projeyi başlatmadan önce bu dosyadaki `environment` değişkenlerini güncelleyebilirsiniz.
 
