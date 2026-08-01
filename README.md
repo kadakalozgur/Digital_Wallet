@@ -170,6 +170,22 @@ Controller
 
 ---
 
+# 🚀 Quick Setup for Testing (Docker)
+
+If you only want to test the project, you do not need to install Visual Studio or SQL Server.
+
+Run:
+
+```bash
+docker-compose up -d --build
+```
+
+This command automatically starts both the API and the database in the background.
+
+> ⚠️ **Warning:** For testing convenience, the JWT Secret Key and database connection settings are embedded in the `docker-compose.yml` file. If you want to use your own credentials, update the `environment` variables in that file before starting the project.
+
+---
+
 # ⚙️ Setup
 
 ## 1️⃣ Clone the Repository
@@ -190,7 +206,7 @@ cd DigitalWallet
 
 ## 2️⃣ Restore / Install Required NuGet Packages
 
-If the required NuGet packages are not restored automatically, install them using **NuGet Package Manager**.
+When you open the project with Visual Studio, the required NuGet packages are restored automatically. If, for any reason, they are not restored, you can install them manually using **NuGet Package Manager**.
 
 ### Required Packages
 
@@ -244,7 +260,7 @@ Tools
 → Package Manager Console
 ```
 
-Run:
+The application is configured to automatically apply any pending Entity Framework Core migrations during startup via `Program.cs`. If you prefer to create the database manually before running the application, you can use the following command.
 
 ```powershell
 Update-Database
@@ -485,6 +501,22 @@ Controller
 
 ---
 
+# 🚀 Test Edenler İçin Hızlı Kurulum (Docker)
+
+Projeyi yalnızca test etmek istiyorsanız Visual Studio veya SQL Server kurmanıza gerek yoktur.
+
+Aşağıdaki komutu çalıştırmanız yeterlidir:
+
+```bash
+docker-compose up -d --build
+```
+
+Bu komut API ve veritabanını arka planda otomatik olarak ayağa kaldırır.
+
+> ⚠️ **Uyarı:** Test kolaylığı için JWT Secret Key ve veritabanı bağlantı bilgileri `docker-compose.yml` dosyasına gömülüdür. Kendi bilgilerinizi kullanmak isterseniz projeyi başlatmadan önce bu dosyadaki `environment` değişkenlerini güncelleyebilirsiniz.
+
+---
+
 # ⚙️ Kurulum
 
 ## 1️⃣ Projeyi Klonlayın
@@ -505,7 +537,7 @@ cd DigitalWallet
 
 ## 2️⃣ Gerekli NuGet Paketlerini Yükleyin
 
-Gerekli NuGet paketleri otomatik olarak yüklenmezse, **NuGet Package Manager** kullanarak aşağıdaki paketleri yükleyin.
+Projeyi Visual Studio ile açtığınızda gerekli NuGet paketleri otomatik olarak yüklenir. Ancak herhangi bir sebeple yüklenmezse, **NuGet Package Manager** kullanarak aşağıdaki paketleri manuel olarak yükleyebilirsiniz.
 
 ### Gerekli Paketler
 
@@ -559,7 +591,7 @@ Tools
 → Package Manager Console
 ```
 
-Ardından aşağıdaki komutu çalıştırın:
+Uygulama, `Program.cs` üzerinden bekleyen Entity Framework Core migrationlarını başlangıçta otomatik olarak uygulayacak şekilde yapılandırılmıştır. Ancak projeyi çalıştırmadan önce veritabanını manuel olarak oluşturmak isterseniz aşağıdaki komutu kullanabilirsiniz.
 
 ```powershell
 Update-Database
